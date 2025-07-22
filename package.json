@@ -14,15 +14,21 @@
   "dependencies": {
     "hono": "^4.8.5"
   },
+  "repository": {
+    "url": "https://github.com/abbaspour/auth0-mcd-federation-migration"
+  },
+  "author": {
+    "name": "Amin Abbaspour",
+    "email": "support@auth0.com"
+  },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250715.0",
+    "@cloudflare/workers-types": "^4.20250722.0",
     "@eslint/js": "^9.31.0",
-    "@types/node": "^24.0.14",
     "eslint": "^9.31.0",
-    "eslint-config-prettier": "^10.1.5",
+    "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.6.2",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.37.0",
-    "wrangler": "^4.24.4"
+    "typescript-eslint": "^8.38.0",
+    "wrangler": "^4.25.0"
   }
 }

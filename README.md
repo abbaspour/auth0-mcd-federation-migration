@@ -89,6 +89,7 @@ terraform apply
 ```
 
 This will:
+
 - Create a SAML-enabled application in the Identity Provider Auth0 tenant
 - Create a SAML connection in the Service Provider Auth0 tenant
 - Set up a custom domain in Auth0

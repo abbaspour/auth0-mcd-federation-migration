@@ -2,7 +2,7 @@ import {Context, Hono} from 'hono';
 
 /**
  * Environment variables interface for the worker
- * 
+ *
  * CNAME_API_KEY: API key for the Auth0 custom domain
  * AUTH0_EDGE_LOCATION: Hostname of the backend Auth0 edge location
  * NEW_SP_DOMAIN: Domain for the new service provider where SAML responses should be redirected
@@ -22,7 +22,7 @@ app.onError((err, c) => {
   return c.text(`Internal Server Error: ${err.message}`, 500);
 });
 
-async function proxy(c: Context<Env>) : Promise<Response> {
+async function proxy(c: Context<Env>): Promise<Response> {
   const request = new Request(c.req.raw);
   const url = new URL(request.url);
   url.hostname = c.env.AUTH0_EDGE_LOCATION;
@@ -30,7 +30,7 @@ async function proxy(c: Context<Env>) : Promise<Response> {
   return await fetch(url, request);
 }
 
-function samlForm(formData: FormData, c: Context<Env>) : string {
+function samlForm(formData: FormData, c: Context<Env>): string {
   // If SAMLResponse is present, create an auto-submitting form to the new domain
   const samlResponse = formData.get('SAMLResponse');
   const relayState = formData.get('RelayState');
@@ -42,8 +42,8 @@ function samlForm(formData: FormData, c: Context<Env>) : string {
 
   // Create the action URL with query parameters if they exist
   const actionUrl = queryParams
-      ? `https://${newDomain}/login/callback${queryParams}`
-      : `https://${newDomain}/login/callback`;
+    ? `https://${newDomain}/login/callback${queryParams}`
+    : `https://${newDomain}/login/callback`;
 
   // Create HTML form that auto-submits to the new domain
   const html = `
@@ -72,18 +72,18 @@ function samlForm(formData: FormData, c: Context<Env>) : string {
 app.post('/login/callback', async (c) => {
   const formData = await c.req.formData();
   const samlResponse = formData.get('SAMLResponse');
-  
+
   // If no SAMLResponse is present, proxy the request as usual
   if (!samlResponse) {
     return proxy(c);
   }
-  
+
   return c.html(samlForm(formData, c));
 });
 
 app.all('/*', async (c) => {
   return proxy(c);
-})
+});
 
 // noinspection JSUnusedGlobalSymbols
 export default app;
