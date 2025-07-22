@@ -132,8 +132,8 @@ Use the script in the `bin/` folder to update connection's expected destination 
 cd bin/
 export access_token='auth0-sp-tenant api2 access_token with `read:connections` and `update:connections` scope'
 
-./sp-set-destination-url.sh -c saml-connection-id -d https://old-sp.address/login/callback
-./sp-set-recipient-url.sh   -c saml-connection-id -r https://old-sp.address/login/callback
+./sp-set-destination-url.sh -i saml-connection-id -d https://old-sp.address/login/callback
+./sp-set-recipient-url.sh   -i saml-connection-id -r https://old-sp.address/login/callback
 ```
 
 ## Troubleshooting
