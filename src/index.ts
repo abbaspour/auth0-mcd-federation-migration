@@ -85,11 +85,5 @@ app.all('/*', async (c) => {
   return proxy(c);
 })
 
-/*
-app.get('/', async (c) => {
-  return c.text(`federation migration. cname-api-key: ${c.env.CNAME_API_KEY}, edge-location: ${c.env.AUTH0_EDGE_LOCATION}`);
-});
-*/
-
 // noinspection JSUnusedGlobalSymbols
 export default app;
