@@ -45,5 +45,6 @@ resource "local_file" "dev_vars" {
   content  = <<-EOT
 CNAME_API_KEY=${auth0_custom_domain_verification.my_custom_domain_verification.cname_api_key}
 AUTH0_EDGE_LOCATION=${auth0_custom_domain_verification.my_custom_domain_verification.origin_domain_name}
+NEW_SP_DOMAIN=${var.auth0_new_custom_domain}
 EOT
 }

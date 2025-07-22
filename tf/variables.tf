@@ -9,6 +9,11 @@ variable "auth0_existing_custom_domain" {
   description = "Existing Auth0 Custom Domain for Service Provider"
 }
 
+variable "auth0_new_custom_domain" {
+  type = string
+  description = "New Auth0 Custom Domain for Service Provider"
+}
+
 variable "auth0_tf_client_id" {
   type = string
   description = "Auth0 TF provider client_id for Service Provider"
