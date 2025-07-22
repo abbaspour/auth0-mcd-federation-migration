@@ -77,3 +77,7 @@ resource "auth0_connection" "saml_federation_connection" {
     #metadata_xml = ""
   }
 }
+
+output "saml-connection-id" {
+  value = auth0_connection.saml_federation_connection.id
+}

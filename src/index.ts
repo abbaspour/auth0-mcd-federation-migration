@@ -30,20 +30,21 @@ async function proxy(c: Context<Env>) : Promise<Response> {
   return await fetch(url, request);
 }
 
-// Handle POST /login/callback specifically for SAML responses
-app.post('/login/callback', async (c) => {
-  const formData = await c.req.formData();
-  const samlResponse = formData.get('SAMLResponse');
-  
-  // If no SAMLResponse is present, proxy the request as usual
-  if (!samlResponse) {
-    return proxy(c);
-  }
-  
+function samlForm(formData: FormData, c: Context<Env>) : string {
   // If SAMLResponse is present, create an auto-submitting form to the new domain
+  const samlResponse = formData.get('SAMLResponse');
   const relayState = formData.get('RelayState');
   const newDomain = c.env.NEW_SP_DOMAIN;
-  
+
+  // Capture query parameters from the original request URL
+  const url = new URL(c.req.url);
+  const queryParams = url.search;
+
+  // Create the action URL with query parameters if they exist
+  const actionUrl = queryParams
+      ? `https://${newDomain}/login/callback${queryParams}`
+      : `https://${newDomain}/login/callback`;
+
   // Create HTML form that auto-submits to the new domain
   const html = `
     <!DOCTYPE html>
@@ -52,7 +53,7 @@ app.post('/login/callback', async (c) => {
       <title>Redirecting...</title>
     </head>
     <body onload="document.forms[0].submit()">
-      <form method="post" action="https://${newDomain}/login/callback?connection=saml-federation-connection">
+      <form method="post" action="${actionUrl}">
         <input type="hidden" name="SAMLResponse" value="${samlResponse}" />
         ${relayState ? `<input type="hidden" name="RelayState" value="${relayState}" />` : ''}
         <noscript>
@@ -63,8 +64,21 @@ app.post('/login/callback', async (c) => {
     </body>
     </html>
   `;
+
+  return html;
+}
+
+// Handle POST /login/callback specifically for SAML responses
+app.post('/login/callback', async (c) => {
+  const formData = await c.req.formData();
+  const samlResponse = formData.get('SAMLResponse');
   
-  return c.html(html);
+  // If no SAMLResponse is present, proxy the request as usual
+  if (!samlResponse) {
+    return proxy(c);
+  }
+  
+  return c.html(samlForm(formData, c));
 });
 
 app.all('/*', async (c) => {
