@@ -1,4 +1,4 @@
-# Auth0 SAML Federation Migration
+# Auth0 SAML Federation Connection Migration between Custom Domains
 
 This project facilitates the migration of SAML federation from an existing Auth0 custom domain to a new one. It uses a Cloudflare Worker to intercept SAML responses and redirect them to the new domain, ensuring a smooth transition for users during the migration process.
 
