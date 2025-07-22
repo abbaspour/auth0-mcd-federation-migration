@@ -1,0 +1,28 @@
+{
+  "name": "auth0-mcd-federation-migration",
+  "version": "0.1.0",
+  "description": "Cloudflare worker to facilitated lazy migration of upstream federation connections from one Auth0 custom domain to another",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "compile": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "hono": "^4.8.5"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250715.0",
+    "@eslint/js": "^9.31.0",
+    "@types/node": "^24.0.14",
+    "eslint": "^9.31.0",
+    "eslint-config-prettier": "^10.1.5",
+    "prettier": "^3.6.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.37.0",
+    "wrangler": "^4.24.4"
+  }
+}

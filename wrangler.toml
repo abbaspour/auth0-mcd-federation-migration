@@ -1,0 +1,16 @@
+name = "fed-migration"
+main = "src/index.ts"
+compatibility_date = "2025-07-20"
+#compatibility_flags = [ "nodejs_compat" ]
+
+workers_dev = true
+
+routes = [
+    { pattern = "oldfed.abbaspour.net", custom_domain = true }
+]
+
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+[vars]
