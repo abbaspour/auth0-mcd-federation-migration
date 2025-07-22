@@ -123,6 +123,19 @@ To test the SAML federation migration:
 2. Attempt to log in through the SAML Identity Provider
 3. Verify that the authentication flow completes successfully and redirects to the application
 
+## Setting SAML Connection Destination and Recipient
+Since SAML response payload is sent back to old SP location, it's normal to get destination and recipient mismatch error.
+
+Use the script in the `bin/` folder to update connection's expected destination and audience:
+
+```bash
+cd bin/
+export access_token='auth0-sp-tenant api2 access_token with `read:connections` and `update:connections` scope'
+
+./sp-set-destination-url.sh -c saml-connection-id -d https://old-sp.address/login/callback
+./sp-set-recipient-url.sh   -c saml-connection-id -r https://old-sp.address/login/callback
+```
+
 ## Troubleshooting
 
 If you encounter issues with the SAML responses not being redirected properly:
