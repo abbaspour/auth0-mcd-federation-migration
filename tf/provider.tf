@@ -14,10 +14,19 @@ terraform {
 }
 
 provider "auth0" {
+  alias         = "sp"
   domain        = var.auth0_domain
   client_id     = var.auth0_tf_client_id
   client_secret = var.auth0_tf_client_secret
-  debug         = "true"
+  debug         = true
+}
+
+provider "auth0" {
+  alias         = "idp"
+  domain        = var.auth0_idp_domain
+  client_id     = var.auth0_idp_tf_client_id
+  client_secret = var.auth0_idp_tf_client_secret
+  debug         = true
 }
 
 provider "cloudflare" {
