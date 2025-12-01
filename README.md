@@ -60,7 +60,7 @@ Create a `terraform.auto.tfvars` file in the `tf` directory with the following v
 # Auth0 Service Provider (SP) variables
 auth0_domain = "your-sp-tenant.auth0.com"
 auth0_existing_custom_domain = "oldfed.example.com"
-auth0_new_custom_domain = "id.example2.com"
+auth0_new_custom_domain = "new.example.com"
 auth0_tf_client_id = "your-sp-client-id"
 auth0_tf_client_secret = "your-sp-client-secret"
 
