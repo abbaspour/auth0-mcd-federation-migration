@@ -30,6 +30,7 @@ async function proxy(c: Context<Env>): Promise<Response> {
   return await fetch(url, request);
 }
 
+/*
 function samlForm(formData: FormData, c: Context<Env>): string {
   // If SAMLResponse is present, create an auto-submitting form to the new domain
   const samlResponse = formData.get('SAMLResponse');
@@ -67,6 +68,17 @@ function samlForm(formData: FormData, c: Context<Env>): string {
 
   return html;
 }
+*/
+
+// Build the action URL for redirecting SAML responses to the new SP domain
+function buildActionUrl(c: Context<Env>): string {
+    const newDomain = c.env.NEW_SP_DOMAIN;
+    const url = new URL(c.req.url);
+    const queryParams = url.search;
+    return queryParams
+        ? `https://${newDomain}/login/callback?${queryParams}`
+        : `https://${newDomain}/login/callback`;
+}
 
 // Handle POST /login/callback specifically for SAML responses
 app.post('/login/callback', async (c) => {
@@ -78,7 +90,14 @@ app.post('/login/callback', async (c) => {
     return proxy(c);
   }
 
+  /*
   return c.html(samlForm(formData, c));
+  */
+
+  // Redirect using HTTP 308 to preserve method and body to the new action URL
+  const actionUrl = buildActionUrl(c);
+  return c.redirect(actionUrl, 308);
+
 });
 
 app.all('/*', async (c) => {

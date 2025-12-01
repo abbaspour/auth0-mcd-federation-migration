@@ -1,34 +1,34 @@
 {
-  "name": "auth0-mcd-federation-migration",
-  "version": "0.1.0",
-  "description": "Cloudflare worker to facilitated lazy migration of upstream federation connections from one Auth0 custom domain to another",
-  "main": "src/index.ts",
-  "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
-    "compile": "tsc --noEmit",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "format": "prettier --write ."
-  },
-  "dependencies": {
-    "hono": "^4.8.5"
-  },
-  "repository": {
-    "url": "https://github.com/abbaspour/auth0-mcd-federation-migration"
-  },
-  "author": {
-    "name": "Amin Abbaspour",
-    "email": "support@auth0.com"
-  },
-  "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250722.0",
-    "@eslint/js": "^9.31.0",
-    "eslint": "^9.31.0",
-    "eslint-config-prettier": "^10.1.8",
-    "prettier": "^3.6.2",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.38.0",
-    "wrangler": "^4.25.0"
-  }
+    "name": "auth0-mcd-federation-migration",
+    "version": "0.1.0",
+    "description": "Cloudflare worker to facilitated lazy migration of upstream federation connections from one Auth0 custom domain to another",
+    "main": "src/index.ts",
+    "scripts": {
+        "dev": "wrangler dev",
+        "deploy": "wrangler deploy",
+        "compile": "tsc --noEmit",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
+        "format": "prettier --write ."
+    },
+    "dependencies": {
+        "hono": "^4.8.5"
+    },
+    "repository": {
+        "url": "https://github.com/abbaspour/auth0-mcd-federation-migration"
+    },
+    "author": {
+        "name": "Amin Abbaspour",
+        "email": "support@auth0.com"
+    },
+    "devDependencies": {
+        "@cloudflare/workers-types": "^4.20250722.0",
+        "@eslint/js": "^9.31.0",
+        "eslint": "^9.31.0",
+        "eslint-config-prettier": "^10.1.8",
+        "prettier": "^3.6.2",
+        "typescript": "^5.8.3",
+        "typescript-eslint": "^8.38.0",
+        "wrangler": "^4.51.0"
+    }
 }
