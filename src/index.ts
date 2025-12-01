@@ -8,26 +8,26 @@ import {Context, Hono} from 'hono';
  * NEW_SP_DOMAIN: Domain for the new service provider where SAML responses should be redirected
  */
 interface Env {
-  Bindings: {
-    CNAME_API_KEY: string;
-    AUTH0_EDGE_LOCATION: string;
-    NEW_SP_DOMAIN: string;
-  };
+    Bindings: {
+        CNAME_API_KEY: string;
+        AUTH0_EDGE_LOCATION: string;
+        NEW_SP_DOMAIN: string;
+    };
 }
 
 const app = new Hono<Env>();
 
 app.onError((err, c) => {
-  console.log(`stack trace: ${err.stack}`);
-  return c.text(`Internal Server Error: ${err.message}`, 500);
+    console.log(`stack trace: ${err.stack}`);
+    return c.text(`Internal Server Error: ${err.message}`, 500);
 });
 
 async function proxy(c: Context<Env>): Promise<Response> {
-  const request = new Request(c.req.raw);
-  const url = new URL(request.url);
-  url.hostname = c.env.AUTH0_EDGE_LOCATION;
-  request.headers.set('cname-api-key', c.env.CNAME_API_KEY);
-  return await fetch(url, request);
+    const request = new Request(c.req.raw);
+    const url = new URL(request.url);
+    url.hostname = c.env.AUTH0_EDGE_LOCATION;
+    request.headers.set('cname-api-key', c.env.CNAME_API_KEY);
+    return await fetch(url, request);
 }
 
 /*
@@ -75,33 +75,30 @@ function buildActionUrl(c: Context<Env>): string {
     const newDomain = c.env.NEW_SP_DOMAIN;
     const url = new URL(c.req.url);
     const queryParams = url.search;
-    return queryParams
-        ? `https://${newDomain}/login/callback?${queryParams}`
-        : `https://${newDomain}/login/callback`;
+    return queryParams ? `https://${newDomain}/login/callback?${queryParams}` : `https://${newDomain}/login/callback`;
 }
 
 // Handle POST /login/callback specifically for SAML responses
 app.post('/login/callback', async (c) => {
-  const formData = await c.req.formData();
-  const samlResponse = formData.get('SAMLResponse');
+    const formData = await c.req.formData();
+    const samlResponse = formData.get('SAMLResponse');
 
-  // If no SAMLResponse is present, proxy the request as usual
-  if (!samlResponse) {
-    return proxy(c);
-  }
+    // If no SAMLResponse is present, proxy the request as usual
+    if (!samlResponse) {
+        return proxy(c);
+    }
 
-  /*
-  return c.html(samlForm(formData, c));
-  */
+    /*
+    return c.html(samlForm(formData, c));
+    */
 
-  // Redirect using HTTP 308 to preserve method and body to the new action URL
-  const actionUrl = buildActionUrl(c);
-  return c.redirect(actionUrl, 308);
-
+    // Redirect using HTTP 308 to preserve method and body to the new action URL
+    const actionUrl = buildActionUrl(c);
+    return c.redirect(actionUrl, 308);
 });
 
 app.all('/*', async (c) => {
-  return proxy(c);
+    return proxy(c);
 });
 
 // noinspection JSUnusedGlobalSymbols

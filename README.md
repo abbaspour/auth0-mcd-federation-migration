@@ -124,6 +124,7 @@ To test the SAML federation migration:
 3. Verify that the authentication flow completes successfully and redirects to the application
 
 ## Setting SAML Connection Destination and Recipient
+
 Since SAML response payload is sent back to old SP location, it's normal to get destination and recipient mismatch error.
 
 Use the script in the `bin/` folder to update connection's expected destination and audience:
@@ -146,7 +147,8 @@ If you encounter issues with the SAML responses not being redirected properly:
 4. Check the DNS records in Cloudflare to ensure they are properly configured
 
 ## Demo Video
-https://zoom.us/clips/share/CIcgpLtgTXegSvvM-jtW3w 
+
+https://zoom.us/clips/share/CIcgpLtgTXegSvvM-jtW3w
 
 ## License
 
