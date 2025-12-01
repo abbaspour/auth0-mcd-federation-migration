@@ -18,14 +18,6 @@ resource "auth0_client" "jwt-io" {
   ]
 }
 
-resource "auth0_connection_clients" "saml-connection-clients" {
-  provider = auth0.sp
-  connection_id = auth0_connection.saml_federation_connection.id
-  enabled_clients = [
-    auth0_client.jwt-io.client_id
-  ]
-}
-
 output "jwt-io-client_id" {
   value = auth0_client.jwt-io.client_id
 }

@@ -36,7 +36,7 @@ resource "auth0_client" "saml_idp_app" {
 output "idp-metadata-url" {
   value = "https://${var.auth0_idp_domain}/samlp/metadata/${auth0_client.saml_idp_app.client_id}"
 }
-/*
+
 data "auth0_connection" "UPA" {
   provider = auth0.idp
   name = "Username-Password-Authentication"
@@ -49,7 +49,7 @@ resource "auth0_connection_clients" "UPA-for-IdP" {
     auth0_client.saml_idp_app.client_id
   ]
 }
-*/
+
 
 # Create a SAML connection in the SP Auth0 tenant pointing to the upstream SAML IDP
 resource "auth0_connection" "saml_federation_connection" {
@@ -80,4 +80,12 @@ resource "auth0_connection" "saml_federation_connection" {
 
 output "saml-connection-id" {
   value = auth0_connection.saml_federation_connection.id
+}
+
+resource "auth0_connection_clients" "saml-connection-clients" {
+  provider = auth0.sp
+  connection_id = auth0_connection.saml_federation_connection.id
+  enabled_clients = [
+    auth0_client.jwt-io.client_id
+  ]
 }

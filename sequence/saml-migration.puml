@@ -4,24 +4,24 @@ autonumber
 title Changing SAML Connection from an existing to a new Custom Domain
 
 actor User as u
-participant "Application\n(app.d1.com)" as app
-participant "New SP domain\n(id.example2.com)" as a0
-participant "Existing SP Domain\n(oldfed.example.com)" as sp
+participant "Application\n(app.example.com)" as app
+participant "New SP domain\n(new.example.com)" as a0
+participant "Existing SP Domain\n(old.example.com)" as sp
 participant "SAML IdP\n(login.idp.com)" as idp
 
 u -> app: access
 
-app -> a0: session with upstream idp
+app -> a0: Request session with upstream idp
 a0 -> idp: POST/GET \n { SAMLRequest & RelayState }
 idp -> u: authenticate
 u --> idp: credentials
 
 idp -> sp: POST /login/callback \n { SAMLResponse & RelayState }
-sp -> sp: smart proxy \n detect SAML response \n {method=POST & body has SAMLResponse}
-sp -> a0: autopost HTML form \n { action=https://id.example2.com & \n RelayState & SAMLResponse }
+sp -> sp: Detect SAML response \n {method=POST & SAMLResponse in body}
+sp -> a0: 308 Redirect \n Location: new.example.com
 
 a0 -> a0: validate & establish session
-a0 -> app: authorized
+a0 -> app: authenticated
 
 app -> u: data
 @enduml
