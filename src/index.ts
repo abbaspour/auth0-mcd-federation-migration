@@ -1,3 +1,7 @@
+/**
+ * Copyright (c) Auth0 Product Architecture Team - https://auth0.com
+ * Author: Amin Abbaspour
+ */
 import {Context, Hono} from 'hono';
 
 /**
